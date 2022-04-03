@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: To create bug reports to make the project better.
+about: create bug report to help make the project better.
 title: I Have Found A Bug That You Have To Fix immediately!
 labels: bug
 assignees: josephanimate2021
