@@ -96,18 +96,17 @@ module.exports = function (req, res, url) {
 				data: 'https://josephanimate2021.github.io/animation/857/go_full.swf',
 				type: 'application/x-shockwave-flash', width: '100%', height: '100%',
 			};
-			newId = `${presave}`;
 			params = {
 				flashvars: {
 					'apiserver': '/', 'storePath': process.env.STORE_URL + '/<store>', 'isEmbed': 1, 'ctc': 'go',
 					'ut': 60, 'bs': 'default', 'appCode': 'go', 'page': '', 'siteId': 'go', 'lid': 13, 'isLogin': 'Y', 'retut': 1,
 					'clientThemePath': process.env.CLIENT_URL + '/<client_theme>', 'themeId': 'business', 'tlang': 'en_US',
 					'presaveId': presave, 'goteam_draft_only': 1, 'isWide': 1, 'nextUrl': '/pages/html/list.html', 'movieId': '',
+					'tray': 'retro',
 				},
 				allowScriptAccess: 'always',
 			};
-			html = `<html><head><script>document.title='Video Editor On Retro Video Maker',flashvars={"movieId":"${params.flashvars.movieId}","apiserver":"/","storePath":"${params.flashvars.storePath}","isEmbed":1,"ctc":"go","ut":60,"bs":"default","appCode":"go","page":"","siteId":"go","lid":13,"isLogin":"Y","retut":1,"clientThemePath":"${params.flashvars.clientThemePath}","themeId":"business","tlang":"en_US","presaveId":"${presave}","goteam_draft_only":1,"isWide":1,"nextUrl":"/pages/html/list.html"}</script><title>Video Editor On Retro Video Maker</title></head><body style="margin:0px">${toObjectString(attrs, params)
-		}<iframe style="display:none" name="dummy"></iframe><form style="display:none" id="banner" enctype="target=" dummy'onchanged="(this.files[0]!=undefined)&amp;&amp;sub.click()"><input id="fileupload" name="import" type="file"><input type="submit" value="submit" id="submit"></form><script>interactiveTutorial={neverDisplay:function(){return true}};function studioLoaded(arg){console.log(arg)}function initPreviewPlayer(xml){confirm('Before proceeding, please make sure all your changes have been saved.')&&window.open('player?movieId='+flashvars.presaveId,'MsgWindow','width=1280,height=720,left='+(screen.width/2-640)+',top='+(screen.height/2-360))};function exitStudio(){window.location='/pages/html/list.html'}const fu=document.getElementById('fileupload'),sub=document.getElementById('submit');function showImporter(){fu.click()};</script></body></html>`;
+			html = `<html><head><script>document.title='Video Editor On Retro Video Maker',flashvars={"movieId":"${params.flashvars.movieId}","tray":"${params.flashvars.tray}","apiserver":"/","storePath":"${params.flashvars.storePath}","isEmbed":1,"ctc":"go","ut":60,"bs":"default","appCode":"go","page":"","siteId":"go","lid":13,"isLogin":"Y","retut":1,"clientThemePath":"${params.flashvars.clientThemePath}","themeId":"business","tlang":"en_US","presaveId":"${presave}","goteam_draft_only":1,"isWide":1,"nextUrl":"/pages/html/list.html"}</script><title>Video Editor On Retro Video Maker</title></head><body style="margin:0px">${toObjectString(attrs, params)}<iframe style="display:none" name="dummy"></iframe><form style="display:none" id="banner" enctype="target=" dummy'onchanged="(this.files[0]!=undefined)&amp;&amp;sub.click()"><input id="fileupload" name="import" type="file"><input type="submit" value="submit" id="submit"></form><script>interactiveTutorial={neverDisplay:function(){return true}};function studioLoaded(arg){console.log(arg)}function initPreviewPlayer(xml){confirm('Before proceeding, please make sure all your changes have been saved.')&&window.open('player?movieId='+flashvars.presaveId,'MsgWindow','width=1280,height=720,left='+(screen.width/2-640)+',top='+(screen.height/2-360))};function exitStudio(){window.location='/pages/html/list.html'}const fu=document.getElementById('fileupload'),sub=document.getElementById('submit');function showImporter(){fu.click()};</script></body></html>`;
 			sessions.set({ movieId: presave }, req);
 			break;
 		}
