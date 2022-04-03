@@ -21,7 +21,7 @@ module.exports = function (req, res, url) {
 	if (req.method != 'GET') return;
 	const query = url.query;
 
-	var attrs, params, title, html;
+	var attrs, params, title;
 	switch (url.pathname) {
 		case '/cc': {
 			title = 'Character Creator';
@@ -39,8 +39,6 @@ module.exports = function (req, res, url) {
 				allowScriptAccess: 'always',
 				movie: process.env.SWF_URL + '/cc.swf', // 'http://localhost/cc.swf'
 			};
-			html = `<title>${title}</title><body style="margin:0px">${toObjectString(attrs, params)
-		}</body>${stuff.pages[url.pathname] || ''}`;
 			break;
 		}
 
@@ -60,8 +58,6 @@ module.exports = function (req, res, url) {
 				allowScriptAccess: 'always',
 				movie: process.env.SWF_URL + '/cc_browser.swf', // 'http://localhost/cc_browser.swf'
 			};
-			html = `<title>${title}</title><body style="margin:0px">${toObjectString(attrs, params)
-		}</body>${stuff.pages[url.pathname] || ''}`;
 			break;
 		}
 		
@@ -78,35 +74,10 @@ module.exports = function (req, res, url) {
 					'apiserver': '/', 'storePath': process.env.STORE_URL + '/<store>', 'isEmbed': 1, 'ctc': 'go',
 					'ut': 60, 'bs': 'default', 'appCode': 'go', 'page': '', 'siteId': 'go', 'lid': 13, 'isLogin': 'Y', 'retut': 1,
 					'clientThemePath': process.env.CLIENT_URL + '/<client_theme>', 'themeId': 'business', 'tlang': 'en_US',
-					'presaveId': presave, 'goteam_draft_only': 1, 'isWide': 1, 'nextUrl': '/pages/html/list.html', 'year': '2014',
+					'presaveId': presave, 'goteam_draft_only': 1, 'isWide': 1, 'nextUrl': '/pages/html/list.html',
 				},
 				allowScriptAccess: 'always',
 			};
-			html = `<title>${title}</title><body style="margin:0px">${toObjectString(attrs, params)
-		}</body>${stuff.pages[url.pathname] || ''}`;
-			sessions.set({ movieId: presave }, req);
-			break;
-		}
-
-                case '/go_full/2009': {
-			let presave = query.movieId && query.movieId.startsWith('m') ? query.movieId :
-				`m-${fUtil[query.noAutosave ? 'getNextFileId' : 'fillNextFileId']('movie-', '.xml')}`;
-			title = 'Video Editor For Wrapper Retro';
-			attrs = {
-				data: 'https://josephanimate2021.github.io/animation/857/go_full.swf',
-				type: 'application/x-shockwave-flash', width: '100%', height: '100%',
-			};
-			params = {
-				flashvars: {
-					'apiserver': '/', 'storePath': process.env.STORE_URL + '/<store>', 'isEmbed': 1, 'ctc': 'go',
-					'ut': 60, 'bs': 'default', 'appCode': 'go', 'page': '', 'siteId': 'go', 'lid': 13, 'isLogin': 'Y', 'retut': 1,
-					'clientThemePath': process.env.CLIENT_URL + '/<client_theme>', 'themeId': 'business', 'tlang': 'en_US',
-					'presaveId': presave, 'goteam_draft_only': 1, 'isWide': 1, 'nextUrl': '/pages/html/list.html', 'movieId': '',
-					'tray': 'retro',
-				},
-				allowScriptAccess: 'always',
-			};
-			html = `<html><head><script>document.title='Video Editor On Retro Video Maker',flashvars={"movieId":"${params.flashvars.movieId}","tray":"${params.flashvars.tray}","apiserver":"/","storePath":"${params.flashvars.storePath}","isEmbed":1,"ctc":"go","ut":60,"bs":"default","appCode":"go","page":"","siteId":"go","lid":13,"isLogin":"Y","retut":1,"clientThemePath":"${params.flashvars.clientThemePath}","themeId":"business","tlang":"en_US","presaveId":"${presave}","goteam_draft_only":1,"isWide":1,"nextUrl":"/pages/html/list.html"}</script><title>Video Editor On Retro Video Maker</title></head><body style="margin:0px">${toObjectString(attrs, params)}<iframe style="display:none" name="dummy"></iframe><form style="display:none" id="banner" enctype="target=" dummy'onchanged="(this.files[0]!=undefined)&amp;&amp;sub.click()"><input id="fileupload" name="import" type="file"><input type="submit" value="submit" id="submit"></form><script>interactiveTutorial={neverDisplay:function(){return true}};function studioLoaded(arg){console.log(arg)}function initPreviewPlayer(xml){confirm('Before proceeding, please make sure all your changes have been saved.')&&window.open('player?movieId='+flashvars.presaveId,'MsgWindow','width=1280,height=720,left='+(screen.width/2-640)+',top='+(screen.height/2-360))};function exitStudio(){window.location='/pages/html/list.html'}const fu=document.getElementById('fileupload'),sub=document.getElementById('submit');function showImporter(){fu.click()};</script></body></html>`;
 			sessions.set({ movieId: presave }, req);
 			break;
 		}
@@ -124,8 +95,6 @@ module.exports = function (req, res, url) {
 				},
 				allowScriptAccess: 'always',
 			};
-			html = `<title>${title}</title><body style="margin:0px">${toObjectString(attrs, params)
-		}</body>${stuff.pages[url.pathname] || ''}`;
 			break;
 		}
 
@@ -134,6 +103,7 @@ module.exports = function (req, res, url) {
 	}
 	res.setHeader('Content-Type', 'text/html; charset=UTF-8');
 	Object.assign(params.flashvars, query);
-	res.end(`${html}`);
+	res.end(`<script>document.title='${title}',flashvars=${JSON.stringify(params.flashvars)}</script><body style="margin:0px">${toObjectString(attrs, params)
+		}</body>${stuff.pages[url.pathname] || ''}`);
 	return true;
 }
